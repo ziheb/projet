@@ -1,7 +1,6 @@
 #ifndef ENQUETE_H
 #define ENQUETE_H
-
-
+//tt
 #include <QString>
 #include <QSqlQuery>
 #include <QSqlQueryModel>

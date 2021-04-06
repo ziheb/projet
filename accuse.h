@@ -1,6 +1,6 @@
 #ifndef ACCUSE_H
 #define ACCUSE_H
-
+//tt
 #include <QString>
 #include <QSqlQuery>
 #include <QSqlQueryModel>

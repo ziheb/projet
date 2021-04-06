@@ -22,6 +22,7 @@
 #include <QFileDialog>
 #include<QTextDocument>
 #include<QFile>
+//tt
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
