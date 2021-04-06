@@ -1,6 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+//tt
 #include <QMainWindow>
 #include <QWidget>
 #include <accuse.h>
