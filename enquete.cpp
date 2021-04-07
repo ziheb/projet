@@ -110,3 +110,6 @@ QSqlQueryModel * enquete::rechercher(int idm)
      model->setHeaderData(2, Qt::Horizontal, QObject::tr("typem"));
          return model;
 }
+
+
+

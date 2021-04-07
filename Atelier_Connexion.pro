@@ -29,13 +29,15 @@ SOURCES += \
     enquete.cpp \
         main.cpp \
         mainwindow.cpp \
-    connection.cpp
+    connection.cpp \
+    qcustomplot.cpp
 
 HEADERS += \
     accuse.h \
     enquete.h \
         mainwindow.h \
-    connection.h
+    connection.h \
+    qcustomplot.h
 
 FORMS += \
         mainwindow.ui

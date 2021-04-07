@@ -28,6 +28,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+     makePolt();
+     makePolt_2();
+
+
      ui->le_id->setValidator(new QIntValidator(0, 99999, this));
      ui->tab_accuse->setModel(F.afficher());
      ui->le_idm->setValidator(new QIntValidator(0, 99999, this));
@@ -350,4 +354,225 @@ void MainWindow::on_pushButton_5_clicked()
                 file.close();
                 QMessageBox::information(this,"Exporter To  export","Exporter En  export Avec Succées ");
             }
+}
+
+
+void MainWindow::makePolt()
+{
+
+       QLinearGradient gradient(0, 0, 0, 400);
+       gradient.setColorAt(0, QColor(90, 90, 90));
+       gradient.setColorAt(0.38, QColor(105, 105, 105));
+       gradient.setColorAt(1, QColor(70, 70, 70));
+       ui->customPlot->setBackground(QBrush(gradient));
+
+
+       QCPBars *regen = new QCPBars(ui->customPlot->xAxis,ui-> customPlot->yAxis);
+
+       regen->setAntialiased(false);
+
+       regen->setStackingGap(1);
+
+
+
+
+       regen->setName("Nombre de accuse par rapport a la type");
+       regen->setPen(QPen(QColor(0, 168, 140).lighter(130)));
+       regen->setBrush(QColor(0, 168, 140));
+
+       QVector<double> ticks;
+       QVector<QString> labels;
+
+
+
+
+
+
+       ticks << 1<<2<<3<<4;
+
+      labels <<"drogue"<<"cambriolage"<<"querelle";
+       QSharedPointer<QCPAxisTickerText> textTicker(new QCPAxisTickerText);
+       textTicker->addTicks(ticks, labels);
+       ui->customPlot->xAxis->setTicker(textTicker);
+       ui->customPlot->xAxis->setTickLabelRotation(60);
+       ui->customPlot->xAxis->setSubTicks(false);
+       ui->customPlot->xAxis->setTickLength(0, 3);
+       ui->customPlot->xAxis->setRange(0, 8);
+       ui->customPlot->xAxis->setBasePen(QPen(Qt::white));
+       ui->customPlot->xAxis->setTickPen(QPen(Qt::white));
+       ui->customPlot->xAxis->grid()->setVisible(true);
+       ui->customPlot->xAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+       ui->customPlot->xAxis->setTickLabelColor(Qt::white);
+       ui->customPlot->xAxis->setLabelColor(Qt::white);
+
+
+       ui->customPlot->yAxis->setRange(0,10);
+       ui->customPlot->yAxis->setPadding(10); // a bit more space to the left border
+       ui->customPlot->yAxis->setLabel("Nombre de accuse");
+       ui->customPlot->yAxis->setBasePen(QPen(Qt::white));
+       ui->customPlot->yAxis->setTickPen(QPen(Qt::white));
+       ui->customPlot->yAxis->setSubTickPen(QPen(Qt::white));
+       ui->customPlot->yAxis->grid()->setSubGridVisible(true);
+       ui->customPlot->yAxis->setTickLabelColor(Qt::white);
+       ui->customPlot->yAxis->setLabelColor(Qt::white);
+       ui->customPlot->yAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::SolidLine));
+       ui->customPlot->yAxis->grid()->setSubGridPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+
+
+       QVector<double> regenData;
+       int n1=0;
+       int n2=0;
+       int n3=0;
+
+           QSqlQuery q1("select count(*) from accuse where type='drogue'");
+           while (q1.next())
+           {
+               n1 = q1.value(0).toInt();
+               qDebug()<<"Nombre accuse : "<<n1<<endl;
+           }
+
+           QSqlQuery q2("select count(*) from accuse where type='cambriolage'");
+           while (q2.next())
+           {
+                n2 = q2.value(0).toInt();
+                qDebug()<<"Nombre accuse : "<<n2<<endl;
+           }
+
+           QSqlQuery q3("select count(*) from accuse where type='querelle'");
+           while (q3.next())
+           {
+                n3 = q3.value(0).toInt();
+                qDebug()<<"Nombre accuse : "<<n3<<endl;
+           }
+
+
+
+
+       regenData << n1<<n2<<n3;
+       regen->setData(ticks, regenData);
+
+
+       ui->customPlot->legend->setVisible(true);
+       ui->customPlot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignHCenter);
+       ui->customPlot->legend->setBrush(QColor(255, 255, 255, 100));
+       ui->customPlot->legend->setBorderPen(Qt::NoPen);
+       QFont legendFont = font();
+       legendFont.setPointSize(10);
+       ui->customPlot->legend->setFont(legendFont);
+       ui->customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+
+
+}
+
+
+
+
+
+void MainWindow::makePolt_2()
+{
+
+       QLinearGradient gradient(0, 0, 0, 400);
+       gradient.setColorAt(0, QColor(90, 90, 90));
+       gradient.setColorAt(0.38, QColor(105, 105, 105));
+       gradient.setColorAt(1, QColor(70, 70, 70));
+       ui->customPlot_2->setBackground(QBrush(gradient));
+
+
+       QCPBars *regen = new QCPBars(ui->customPlot_2->xAxis,ui-> customPlot_2->yAxis);
+
+       regen->setAntialiased(false);
+
+       regen->setStackingGap(1);
+
+
+
+
+       regen->setName("Nombre de enquete par rapport a la typem");
+       regen->setPen(QPen(QColor(0, 168, 140).lighter(130)));
+       regen->setBrush(QColor(0, 168, 140));
+
+       QVector<double> ticks;
+       QVector<QString> labels;
+
+
+
+
+
+
+       ticks << 1<<2<<3;
+
+      labels <<"drogue"<<"querelle"<<"cambriolage";
+       QSharedPointer<QCPAxisTickerText> textTicker(new QCPAxisTickerText);
+       textTicker->addTicks(ticks, labels);
+       ui->customPlot_2->xAxis->setTicker(textTicker);
+       ui->customPlot_2->xAxis->setTickLabelRotation(60);
+       ui->customPlot_2->xAxis->setSubTicks(false);
+       ui->customPlot_2->xAxis->setTickLength(0, 3);
+       ui->customPlot_2->xAxis->setRange(0, 8);
+       ui->customPlot_2->xAxis->setBasePen(QPen(Qt::white));
+       ui->customPlot_2->xAxis->setTickPen(QPen(Qt::white));
+       ui->customPlot_2->xAxis->grid()->setVisible(true);
+       ui->customPlot_2->xAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+       ui->customPlot_2->xAxis->setTickLabelColor(Qt::white);
+       ui->customPlot_2->xAxis->setLabelColor(Qt::white);
+
+
+       ui->customPlot_2->yAxis->setRange(0,10);
+       ui->customPlot_2->yAxis->setPadding(10); // a bit more space to the left border
+       ui->customPlot_2->yAxis->setLabel("Nombre de accuse");
+       ui->customPlot_2->yAxis->setBasePen(QPen(Qt::white));
+       ui->customPlot_2->yAxis->setTickPen(QPen(Qt::white));
+       ui->customPlot_2->yAxis->setSubTickPen(QPen(Qt::white));
+       ui->customPlot_2->yAxis->grid()->setSubGridVisible(true);
+       ui->customPlot_2->yAxis->setTickLabelColor(Qt::white);
+       ui->customPlot_2->yAxis->setLabelColor(Qt::white);
+       ui->customPlot_2->yAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::SolidLine));
+       ui->customPlot_2->yAxis->grid()->setSubGridPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+
+
+       QVector<double> regenData;
+       int n1=0;
+       int n2=0;
+       int n3=0;
+
+           QSqlQuery q1("select count(*) from enquete where typem='drogue'");
+           while (q1.next())
+           {
+               n1 = q1.value(0).toInt();
+               qDebug()<<"Nombre enquete : "<<n1<<endl;
+           }
+
+           QSqlQuery q2("select count(*) from enquete where typem='querelle'");
+           while (q2.next())
+           {
+               n2 = q2.value(0).toInt();
+               qDebug()<<"Nombre enquete : "<<n2<<endl;
+           }
+
+           QSqlQuery q3("select count(*) from enquete where typem='cambriolage'");
+           while (q3.next())
+           {
+                n3 = q3.value(0).toInt();
+                qDebug()<<"Nombre enquete : "<<n3<<endl;
+           }
+
+
+
+
+
+
+       regenData << n1<<n2<<n3;
+       regen->setData(ticks, regenData);
+
+
+       ui->customPlot_2->legend->setVisible(true);
+       ui->customPlot_2->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignHCenter);
+       ui->customPlot_2->legend->setBrush(QColor(255, 255, 255, 100));
+       ui->customPlot_2->legend->setBorderPen(Qt::NoPen);
+       QFont legendFont = font();
+       legendFont.setPointSize(10);
+       ui->customPlot_2->legend->setFont(legendFont);
+       ui->customPlot_2->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+
+
 }
